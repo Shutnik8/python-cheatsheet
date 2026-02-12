@@ -1,1 +1,573 @@
+ 
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🐍 Python Шпаргалка для новичков</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            color: #e0e6ed;
+            min-height: 100vh;
+            padding: 2rem;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 3rem;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 3rem;
+            text-shadow: 0 0 30px rgba(255, 107, 107, 0.5);
+        }
+
+        h2 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #4ecdc4;
+            margin: 2.5rem 0 1.5rem 0;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, rgba(78, 205, 196, 0.2), rgba(78, 205, 196, 0.1));
+            border-left: 4px solid #4ecdc4;
+            border-radius: 0 12px 12px 0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        h2::before {
+            font-size: 1.2rem;
+            line-height: 1;
+        }
+
+        .code-block {
+            background: rgba(15, 15, 35, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .code-block:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px rgba(78, 205, 196, 0.2);
+        }
+
+        .code-block pre {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .code-comment {
+            color: #6b7280;
+            font-style: italic;
+        }
+
+        .code-keyword {
+            color: #a78bfa;
+            font-weight: 500;
+        }
+
+        .code-string {
+            color: #4ade80;
+        }
+
+        .code-number {
+            color: #f59e0b;
+        }
+
+        .tips {
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.2), rgba(236, 72, 153, 0.1));
+            border: 1px solid rgba(236, 72, 153, 0.3);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 3rem 0;
+        }
+
+        .tips ol {
+            list-style: none;
+            counter-reset: tip-counter;
+            padding-left: 0;
+        }
+
+        .tips li {
+            counter-increment: tip-counter;
+            padding: 1rem 0;
+            position: relative;
+            padding-left: 3rem;
+        }
+
+        .tips li::before {
+            content: counter(tip-counter);
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 2rem;
+            height: 2rem;
+            background: linear-gradient(135deg, #ec4899, #f472b6);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #9ca3af;
+            font-size: 0.95rem;
+        }
+
+        .print-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #4ecdc4, #45b7d1);
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 500;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(78, 205, 196, 0.3);
+        }
+
+        .print-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(78, 205, 196, 0.4);
+        }
+
+        /* Баннер VK */
+        .vk-banner {
+            margin-top: 2.5rem;
+            padding: 1.5rem 2rem;
+            border-radius: 18px;
+            background: radial-gradient(circle at top left, rgba(76, 131, 255, 0.35), transparent 55%),
+                        radial-gradient(circle at bottom right, rgba(56, 189, 248, 0.35), transparent 55%),
+                        rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(148, 163, 184, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .vk-banner-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .vk-logo {
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            background: #0077ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 25px rgba(0, 119, 255, 0.5);
+            flex-shrink: 0;
+        }
+
+        .vk-logo svg {
+            width: 26px;
+            height: 26px;
+            fill: #ffffff;
+        }
+
+        .vk-text-main {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #e5e7eb;
+        }
+
+        .vk-text-sub {
+            font-size: 0.9rem;
+            color: #9ca3af;
+        }
+
+        .vk-btn {
+            padding: 0.75rem 1.6rem;
+            border-radius: 999px;
+            background: linear-gradient(135deg, #0ea5e9, #3b82f6);
+            color: #f9fafb;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 12px 30px rgba(37, 99, 235, 0.45);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .vk-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 16px 40px rgba(37, 99, 235, 0.55);
+            background: linear-gradient(135deg, #38bdf8, #2563eb);
+        }
+
+        .vk-btn span {
+            font-size: 1.1rem;
+        }
+
+        .donate-block {
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .container {
+                padding: 2rem 1.5rem;
+                margin: 0;
+                border-radius: 16px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.2rem;
+                padding: 1rem;
+            }
+            
+            .code-block {
+                padding: 1.5rem;
+            }
+
+            .vk-banner {
+                padding: 1.25rem 1.4rem;
+            }
+
+            .vk-text-main {
+                font-size: 1rem;
+            }
+
+            .vk-text-sub {
+                font-size: 0.85rem;
+            }
+
+            .vk-btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .donate-block iframe {
+                width: 100% !important;
+                height: 420px;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+                color: black;
+                padding: 0;
+            }
+            
+            .container {
+                box-shadow: none;
+                background: white;
+                border: 1px solid #ddd;
+                padding: 2rem;
+            }
+            
+            h1 {
+                -webkit-text-fill-color: #333;
+            }
+            
+            h2 {
+                background: #f8f9fa;
+                color: #333;
+                border-left-color: #007bff;
+            }
+            
+            .code-block {
+                background: #f8f9fa;
+                border-color: #dee2e6;
+            }
+            
+            .print-btn {
+                display: none;
+            }
+
+            .donate-block {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🐍 Python: Шпаргалка для новичков</h1>
+
+        <div class="code-block">
+<pre><span class="code-comment"># Числа</span>
+age = <span class="code-number">25</span>              <span class="code-comment"># int</span>
+price = <span class="code-number">99.9</span>          <span class="code-comment"># float</span>
+
+<span class="code-comment"># Строки</span>
+name = <span class="code-string">"Анна"</span>
+text = <span class="code-string">'Привет'</span>
+
+<span class="code-comment"># Булевы значения</span>
+is_student = <span class="code-keyword">True</span>
+is_work = <span class="code-keyword">False</span>
+
+<span class="code-comment"># Ничего</span>
+nothing = <span class="code-keyword">None</span></pre>
+        </div>
+
+        <h2>📋 Базовые операции</h2>
+        <div class="code-block">
+<pre><span class="code-comment"># Арифметика</span>
+<span class="code-number">5</span> + <span class="code-number">3</span>      <span class="code-comment"># 8</span>
+<span class="code-number">5</span> - <span class="code-number">3</span>      <span class="code-comment"># 2</span>
+<span class="code-number">5</span> * <span class="code-number">3</span>      <span class="code-comment"># 15</span>
+<span class="code-number">5</span> / <span class="code-number">2</span>      <span class="code-comment"># 2.5</span>
+<span class="code-number">5</span> // <span class="code-number">2</span>     <span class="code-comment"># 2 (целочисленное)</span>
+<span class="code-number">5</span> % <span class="code-number">2</span>      <span class="code-comment"># 1 (остаток)</span>
+<span class="code-number">5</span> ** <span class="code-number">2</span>     <span class="code-comment"># 25 (степень)</span>
+
+<span class="code-comment"># Со строками</span>
+<span class="code-string">"При"</span> + <span class="code-string">"вет"</span>        <span class="code-comment"># "Привет"</span>
+<span class="code-string">"ха"</span> * <span class="code-number">3</span>             <span class="code-comment"># "хахаха"</span>
+len(<span class="code-string">"Привет"</span>)        <span class="code-comment"># 6 (длина)</span></pre>
+        </div>
+
+        <h2>🎯 Условные операторы</h2>
+        <div class="code-block">
+<pre><span class="code-keyword">if</span> age >= <span class="code-number">18</span>:
+    print(<span class="code-string">"Взрослый"</span>)
+<span class="code-keyword">elif</span> age >= <span class="code-number">12</span>:
+    print(<span class="code-string">"Подросток"</span>)
+<span class="code-keyword">else</span>:
+    print(<span class="code-string">"Ребёнок"</span>)
+
+<span class="code-comment"># Короткая запись (тернарный оператор)</span>
+status = <span class="code-string">"Взрослый"</span> <span class="code-keyword">if</span> age >= <span class="code-number">18</span> <span class="code-keyword">else</span> <span class="code-string">"Не взрослый"</span></pre>
+        </div>
+
+        <h2>🔄 Циклы</h2>
+        <div class="code-block">
+<pre><span class="code-comment"># for: перебор последовательности</span>
+<span class="code-keyword">for</span> i <span class="code-keyword">in</span> range(<span class="code-number">5</span>):     <span class="code-comment"># 0,1,2,3,4</span>
+    print(i)
+
+<span class="code-keyword">for</span> char <span class="code-keyword">in</span> <span class="code-string">"Привет"</span>:
+    print(char)        <span class="code-comment"># П р и в е т</span>
+
+<span class="code-comment"># while: пока условие истинно</span>
+i = <span class="code-number">0</span>
+<span class="code-keyword">while</span> i < <span class="code-number">5</span>:
+    print(i)
+    i += <span class="code-number">1</span></pre>
+        </div>
+
+        <h2>📚 Коллекции</h2>
+        <div class="code-block">
+<pre><span class="code-comment"># Список (изменяемый)</span>
+fruits = [<span class="code-string">"яблоко"</span>, <span class="code-string">"банан"</span>, <span class="code-string">"апельсин"</span>]
+fruits[<span class="code-number">0</span>]          <span class="code-comment"># "яблоко"</span>
+fruits.append(<span class="code-string">"киви"</span>)     <span class="code-comment"># добавить</span>
+fruits.remove(<span class="code-string">"банан"</span>)    <span class="code-comment"># удалить</span>
+len(fruits)        <span class="code-comment"># длина</span>
+
+<span class="code-comment"># Кортеж (неизменяемый)</span>
+colors = (<span class="code-string">"красный"</span>, <span class="code-string">"зеленый"</span>, <span class="code-string">"синий"</span>)
+colors[<span class="code-number">0</span>]          <span class="code-comment"># "красный"</span>
+
+<span class="code-comment"># Словарь (ключ → значение)</span>
+person = {<span class="code-string">"name"</span>: <span class="code-string">"Анна"</span>, <span class="code-string">"age"</span>: <span class="code-number">25</span>}
+person[<span class="code-string">"name"</span>]          <span class="code-comment"># "Анна"</span>
+person[<span class="code-string">"city"</span>] = <span class="code-string">"Москва"</span>  <span class="code-comment"># добавить</span>
+
+<span class="code-comment"># Множество (уникальные значения)</span>
+unique = {<span class="code-number">1</span>, <span class="code-number">2</span>, <span class="code-number">3</span>, <span class="code-number">3</span>, <span class="code-number">3</span>}
+<span class="code-comment"># {1, 2, 3}</span></pre>
+        </div>
+
+        <h2>🔧 Функции</h2>
+        <div class="code-block">
+<pre><span class="code-comment"># Простая функция</span>
+<span class="code-keyword">def</span> greet(name):
+    <span class="code-keyword">return</span> <span class="code-string">f"Привет, {name}!"</span>
+
+print(greet(<span class="code-string">"Анна"</span>))  <span class="code-comment"># "Привет, Анна!"</span>
+
+<span class="code-comment"># С параметром по умолчанию</span>
+<span class="code-keyword">def</span> power(x, n=<span class="code-number">2</span>):
+    <span class="code-keyword">return</span> x ** n
+
+power(<span class="code-number">3</span>)      <span class="code-comment"># 9 (3²)</span>
+power(<span class="code-number">3</span>, <span class="code-number">3</span>)   <span class="code-comment"># 27 (3³)</span>
+
+<span class="code-comment"># Лямбда-функция (однострочная)</span>
+square = <span class="code-keyword">lambda</span> x: x ** <span class="code-number">2</span>
+square(<span class="code-number">5</span>)     <span class="code-comment"># 25</span></pre>
+        </div>
+
+        <h2>📂 Работа со строками</h2>
+        <div class="code-block">
+<pre>text = <span class="code-string">"  Привет, Мир!  "</span>
+
+text.lower()        <span class="code-comment"># "  привет, мир!  "</span>
+text.upper()        <span class="code-comment"># "  ПРИВЕТ, МИР!  "</span>
+text.strip()        <span class="code-comment"># "Привет, Мир!" (убрать пробелы)</span>
+text.replace(<span class="code-string">"Мир"</span>, <span class="code-string">"Python"</span>)  <span class="code-comment"># "Привет, Python!"</span>
+text.split(<span class="code-string">","</span>)     <span class="code-comment"># ["Привет", " Мир! "]</span></pre>
+        </div>
+
+        <h2>🧮 Полезные функции</h2>
+        <div class="code-block">
+<pre>print(<span class="code-string">"hello"</span>)      <span class="code-comment"># вывести в консоль</span>
+input(<span class="code-string">"Введите имя: "</span>)  <span class="code-comment"># получить ввод</span>
+
+type(<span class="code-number">5</span>)            <span class="code-comment"># &lt;class 'int'&gt;</span>
+int(<span class="code-string">"123"</span>)         <span class="code-comment"># 123 (строка → число)</span>
+str(<span class="code-number">123</span>)           <span class="code-comment"># "123" (число → строка)</span>
+
+len([<span class="code-number">1</span>, <span class="code-number">2</span>, <span class="code-number">3</span>])     <span class="code-comment"># 3 (длина)</span>
+sum([<span class="code-number">1</span>, <span class="code-number">2</span>, <span class="code-number">3</span>])      <span class="code-comment"># 6 (сумма)</span>
+max([<span class="code-number">1</span>, <span class="code-number">5</span>, <span class="code-number">3</span>])     <span class="code-comment"># 5</span>
+min([<span class="code-number">1</span>, <span class="code-number">5</span>, <span class="code-number">3</span>])     <span class="code-comment"># 1</span></pre>
+        </div>
+
+        <h2>💡 Ошибки и отладка</h2>
+        <div class="code-block">
+<pre><span class="code-keyword">try</span>:
+    number = int(input(<span class="code-string">"Введите число: "</span>))
+    print(<span class="code-number">10</span> / number)
+<span class="code-keyword">except</span> <span class="code-keyword">ValueError</span>:
+    print(<span class="code-string">"Это не число!"</span>)
+<span class="code-keyword">except</span> <span class="code-keyword">ZeroDivisionError</span>:
+    print(<span class="code-string">"На ноль делить нельзя!"</span>)
+<span class="code-keyword">else</span>:
+    print(<span class="code-string">"Всё ок!"</span>)
+<span class="code-keyword">finally</span>:
+    print(<span class="code-string">"Конец программы"</span>)</pre>
+        </div>
+
+        <h2>📁 Файлы</h2>
+        <div class="code-block">
+<pre><span class="code-comment"># Запись в файл</span>
+<span class="code-keyword">with</span> <span class="code-keyword">open</span>(<span class="code-string">"file.txt"</span>, <span class="code-string">"w"</span>) <span class="code-keyword">as</span> f:
+    f.write(<span class="code-string">"Привет, файл!"</span>)
+
+<span class="code-comment"># Чтение из файла</span>
+<span class="code-keyword">with</span> <span class="code-keyword">open</span>(<span class="code-string">"file.txt"</span>, <span class="code-string">"r"</span>) <span class="code-keyword">as</span> f:
+    content = f.read()  <span class="code-comment"># весь файл</span>
+    lines = f.readlines()  <span class="code-comment"># список строк</span></pre>
+        </div>
+
+        <h2>🎯 Срезы</h2>
+        <div class="code-block">
+<pre>text = <span class="code-string">"Python"</span>
+text[<span class="code-number">0</span>]      <span class="code-comment"># "P"</span>
+text[-<span class="code-number">1</span>]     <span class="code-comment"># "n" (последний)</span>
+text[<span class="code-number">1</span>:<span class="code-number">4</span>]    <span class="code-comment"># "yth" (с 1 по 3)</span>
+text[:<span class="code-number">3</span>]     <span class="code-comment"># "Pyt" (с начала до 2)</span>
+text[<span class="code-number">3</span>:]     <span class="code-comment"># "hon" (с 3 до конца)</span>
+text[::-<span class="code-number">1</span>]   <span class="code-comment"># "nohtyP" (развернуть)</span></pre>
+        </div>
+
+        <h2>🧩 Генераторы списков</h2>
+        <div class="code-block">
+<pre><span class="code-comment"># Квадраты чисел от 0 до 9</span>
+squares = [x**<span class="code-number">2</span> <span class="code-keyword">for</span> x <span class="code-keyword">in</span> range(<span class="code-number">10</span>)]
+<span class="code-comment"># [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]</span>
+
+<span class="code-comment"># Только чётные</span>
+evens = [x <span class="code-keyword">for</span> x <span class="code-keyword">in</span> range(<span class="code-number">10</span>) <span class="code-keyword">if</span> x % <span class="code-number">2</span> == <span class="code-number">0</span>]
+<span class="code-comment"># [0, 2, 4, 6, 8]</span></pre>
+        </div>
+
+        <div class="tips">
+            <h2 style="margin: -1rem 0 2rem 0; color: #ec4899;">🚀 Советы новичкам</h2>
+            <ol>
+                <li><strong>Отступы важны!</strong> Python использует отступы вместо <code>{}</code></li>
+                <li><strong>Имена переменных:</strong> только буквы, цифры и <code>_</code>, не начинать с цифры</li>
+                <li><strong>Комментарии:</strong> <code># это комментарий</code></li>
+                <li><strong>Помощь:</strong> <code>help(print)</code> или <code>dir(str)</code></li>
+                <li><strong>Главная боль:</strong> забыл <code>:</code> после <code>if</code>, <code>for</code>, <code>def</code> 😅</li>
+            </ol>
+        </div>
+
+        <!-- Баннер VK -->
+        <div class="vk-banner">
+            <div class="vk-banner-left">
+                <div class="vk-logo">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M3.5 6.75C3.5 5.23122 4.73122 4 6.25 4H17.75C19.2688 4 20.5 5.23122 20.5 6.75V17.25C20.5 18.7688 19.2688 20 17.75 20H6.25C4.73122 20 3.5 18.7688 3.5 17.25V6.75ZM6.26028 7.25C6.09494 7.25 6.0022 7.44194 6.08306 7.58809C6.95663 9.17074 8.15799 11.1074 9.91269 13.1435C10.9281 14.3334 12.2616 15.5 13.75 15.5H15.25C15.6642 15.5 16 15.1642 16 14.75V13.75C16 13.3358 15.6642 13 15.25 13H14.75C14.2856 13 13.8834 12.6962 13.7574 12.2475L13.5 11.25C13.5 11.25 14.5 10.75 14.75 10.5C15.25 10 16 9 16 8.25C16 8.11193 15.8881 8 15.75 8H14.25C13.9481 8 13.6642 8.13536 13.4822 8.36698L12.75 9.25L11.75 8.25C11.3358 7.83579 10.6642 7.83579 10.25 8.25L9.5 9C9.5 9 9.25 8.75 8.75 8H7.25Z" />
+                    </svg>
+                </div>
+                <div>
+                    <div class="vk-text-main">Сообщество «Программирование + SEO»</div>
+                    <div class="vk-text-sub">Ещё больше шпаргалок, разборов кода и SEO-практики во VK</div>
+                </div>
+            </div>
+            <a class="vk-btn" href="https://vk.com/club228674224" target="_blank" rel="noopener noreferrer">
+                <span>→</span> Перейти в сообщество
+            </a>
+        </div>
+
+        <div class="footer">
+            <p><strong>Сохрани, пригодится! 🔥</strong></p>
+            <a href="#" onclick="window.print()" class="print-btn">🖨️ Печать / PDF</a>
+
+            <div class="donate-block">
+                <p style="margin: 1.5rem 0 0.5rem;">Поддержать автора шпаргалки:</p>
+                <iframe src="https://yoomoney.ru/quickpay/fundraise/widget?billNumber=1F303FASBB3.260104&"
+                        width="500"
+                        height="480"
+                        frameborder="0"
+                        allowtransparency="true"
+                        scrolling="no"></iframe>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
 
